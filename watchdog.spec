@@ -1,7 +1,8 @@
+Summary:	A software watchdog
+Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	4.5
 Release:	2
-Summary:	A software watchdog
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -10,6 +11,7 @@ Vendor:		Michael Meskes <meskes@debian.org>
 Icon:		doggy.gif
 Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Prereq:		/sbin/chkconfig
 
 %description
 The watchdog program writes to /dev/watchdog every ten seconds. If the
@@ -17,6 +19,13 @@ device is open but not written to within a minute the machine will
 reboot. Each write delays the reboot time another minute. The ability
 to reboot will depend on the state of the machines and interrupts. To
 use this software at least a version 1.3.52 kernel is needed.
+
+%description -l pl
+Program watchdog zapisuje do /dev/watchdog co 10 sekund. Je¿eli
+urz±dzenie jest otwarte, ale nic nie zostanie zapisane przez minutê,
+maszyna siê zrebootuje. Ka¿dy zapis opó¼nia reboot o minutê. Mo¿liwo¶æ
+rebootu zale¿y od stanu maszyny i przerwañ. Do tego programu potrzebne
+jest j±dro w wersji co najmniej 1.3.52.
 
 %prep
 %setup -q
@@ -42,7 +51,7 @@ mknod /dev/temperature c 10 131
 
 %postun
 if [ "$1" = 0 ] ; then
-  /sbin/chkconfig --del watchdog
+	/sbin/chkconfig --del watchdog
 fi
 
 %files
