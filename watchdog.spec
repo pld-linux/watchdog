@@ -2,7 +2,7 @@ Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	5.2
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
@@ -50,8 +50,6 @@ install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/watchdog
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/watchdog
 
-gzip -9nf ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples/*
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -73,7 +71,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz examples/*.gz
+%doc ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples/*
 %{_mandir}/man?/*
 %attr(755,root,root) %{_sbindir}/watchdog
 %attr(755,root,root) %config /etc/rc.d/init.d/watchdog
