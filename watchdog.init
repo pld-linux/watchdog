@@ -20,7 +20,7 @@
 
 VERBOSE="no"
 if [ -f /etc/sysconfig/watchdog ]; then
-    . /etc/sysconfig/watchdog
+	. /etc/sysconfig/watchdog
 fi
 
 RETVAL=0
@@ -32,12 +32,12 @@ case "$1" in
 		busy
 		
 		if [ -z "$WATCHDOG_MODULES" ]; then
-		    # preload software module
-		    modprobe -s softdog > /dev/null 2>&1
+			# preload software module
+			modprobe -s softdog > /dev/null 2>&1
 		else
-		    for module in $WATCHDOG_MODULES ; do
-			modprobe -s $module > /dev/null 2>&1
-		    done
+			for module in $WATCHDOG_MODULES; do
+				modprobe -s $module > /dev/null 2>&1
+			done
 		fi
 
 		if [ ${VERBOSE}="yes" ]; then
@@ -64,13 +64,13 @@ case "$1" in
 		# this behavior  isn't what you  want, just uncomment  the following
 		# lines
 		if [ -z "$WATCHDOG_MODULES" ]; then
-		    # try to unload software module
-                    rmmod -s softdog > /dev/null 2>&1
-                else
-                    for module in $WATCHDOG_MODULES ; do
-                        rmmod -s $module > /dev/null 2>&1
-                    done
-                fi
+			# try to unload software module
+			rmmod -s softdog > /dev/null 2>&1
+		else
+			for module in $WATCHDOG_MODULES; do
+				rmmod -s $module > /dev/null 2>&1
+			done
+		fi
 
 		rm -f /var/lock/subsys/watchdog >/dev/null 2>&1
 	else
