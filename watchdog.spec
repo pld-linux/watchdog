@@ -4,8 +4,8 @@ Name:		watchdog
 Version:	5.2.4
 Release:	2
 License:	GPL
-Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
+Group:		Applications/System
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	c6ac132d92110eb2c4670d4f684105c3
 Source1:	%{name}.init
@@ -37,7 +37,6 @@ jest j±dro w wersji co najmniej 1.3.52.
 %patch0 -p1
 
 %build
-rm -f missing
 %{__aclocal}
 %{__autoconf}
 %{__automake}
@@ -80,4 +79,4 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/watchdog
 %attr(755,root,root) %config /etc/sysconfig/watchdog
-%config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/watchdog.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/watchdog.conf
