@@ -1,14 +1,15 @@
 Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
-Version:	5.2
-Release:	3
+Version:	5.2.3
+Release:	1
 License:	GPL
 Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
 Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Patch0:		%{name}-debian.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 Prereq:		/sbin/chkconfig
@@ -31,6 +32,7 @@ jest j±dro w wersji co najmniej 1.3.52.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 rm -f missing
@@ -70,9 +72,9 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples/*
+%doc ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples
 %{_mandir}/man?/*
-%attr(755,root,root) %{_sbindir}/watchdog
+%attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %config /etc/rc.d/init.d/watchdog
 %attr(755,root,root) %config /etc/sysconfig/watchdog
 %config(noreplace) %{_sysconfdir}/watchdog.conf
