@@ -78,5 +78,5 @@ fi
 %{_mandir}/man?/*
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/watchdog
-%attr(755,root,root) %config /etc/sysconfig/watchdog
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/watchdog
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/watchdog.conf
