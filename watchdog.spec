@@ -2,7 +2,7 @@ Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	5.2.4
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
