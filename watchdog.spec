@@ -5,10 +5,6 @@ Version:	5.2
 Release:	2
 License:	GPL
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(es):	Aplicaciones/Sistema
-Group(pl):	Aplikacje/System
-Group(pt_BR):	Aplicações/Sistema
 Vendor:		Michael Meskes <meskes@debian.org>
 Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
