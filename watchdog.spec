@@ -37,8 +37,7 @@ rm -f missing
 aclocal
 %{__autoconf}
 %{__automake}
-%configure \
-	--prefix=%{_prefix}
+%configure
 %{__make}
 
 %install
