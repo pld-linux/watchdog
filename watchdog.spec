@@ -78,6 +78,6 @@ fi
 %doc ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples
 %{_mandir}/man?/*
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %config /etc/rc.d/init.d/watchdog
+%attr(754,root,root) /etc/rc.d/init.d/watchdog
 %attr(755,root,root) %config /etc/sysconfig/watchdog
 %config(noreplace) %{_sysconfdir}/watchdog.conf
