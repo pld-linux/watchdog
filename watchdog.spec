@@ -44,10 +44,12 @@ rm -rf $RPM_BUILD_ROOT
 rm -f /dev/watchdog /dev/temperature
 mknod /dev/watchdog c 10 130
 mknod /dev/temperature c 10 131
-%chkconfig_add
+/sbin/chkconfig --add watchdog
 
-%preun
-%chkconfig_del
+%postun
+if [ "$1" = 0 ] ; then
+  /sbin/chkconfig --del watchdog
+fi
 
 %files
 %defattr(0644, root, root, 0755)
