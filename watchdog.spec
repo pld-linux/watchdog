@@ -1,16 +1,17 @@
 Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
-Version:	5.2.3
+Version:	5.2.4
 Release:	1
 License:	GPL
 Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
-#Source0-md5:	43881aa9b094da4e60425fe5f46af83c
-Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
+# Source0-md5:	c6ac132d92110eb2c4670d4f684105c3
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-Patch0:		%{name}-debian.patch
+# ftp://ftp.debian.org/debian/pool/main/w/watchdog/
+Patch0:		%{name}_%{version}-1.diff.gz
 BuildRequires:	autoconf
 BuildRequires:	automake
 Prereq:		/sbin/chkconfig
@@ -32,7 +33,7 @@ rebootu zale¿y od stanu maszyny i przerwañ. Do tego programu potrzebne
 jest j±dro w wersji co najmniej 1.3.52.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}.orig
 %patch0 -p1
 
 %build
