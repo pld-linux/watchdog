@@ -44,7 +44,7 @@ case "$1" in
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/watchdog
 	else
-		msg_Already_Running watchdog
+		msg_already_running watchdog
 	fi
 	;;
   stop)
@@ -64,7 +64,7 @@ case "$1" in
 	rmmod acquirewdt &>/dev/null
 		rm -f /var/lock/subsys/watchdog >/dev/null 2>&1
 	else
-		msg_Not_Running watchdog
+		msg_not_running watchdog
 		exit 1
 	fi
 	;;
