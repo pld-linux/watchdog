@@ -34,7 +34,7 @@ jest j±dro w wersji co najmniej 1.3.52.
 
 %build
 rm -f missing
-aclocal
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure
