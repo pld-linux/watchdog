@@ -80,4 +80,4 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/watchdog
 %attr(755,root,root) %config /etc/sysconfig/watchdog
-%config(noreplace) %{_sysconfdir}/watchdog.conf
+%config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/watchdog.conf
