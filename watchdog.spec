@@ -1,17 +1,22 @@
 Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
-Version:	4.5
-Release:	2
+Version:	5.2
+Release:	1
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
+Group(es):	Aplicaciones/Sistema
 Group(pl):	Aplikacje/System
+Group(pt_BR):	Aplicações/Sistema
 Vendor:		Michael Meskes <meskes@debian.org>
-Icon:		doggy.gif
 Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
+BuildRequires:	autoconf
+BuildRequires:	automake
 Prereq:		/sbin/chkconfig
+Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The watchdog program writes to /dev/watchdog every ten seconds. If the
@@ -31,34 +36,49 @@ jest j±dro w wersji co najmniej 1.3.52.
 %setup -q
 
 %build
-./configure --prefix=%{_prefix}
+rm -f missing
+aclocal
+autoconf
+automake -a -c
+%configure \
+	--prefix=%{_prefix}
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/{dev,etc/rc.d/init.d}
+install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
+
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
-install -c -m 755 rc.watchdog.redhat $RPM_BUILD_ROOT/etc/rc.d/init.d/watchdog
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/watchdog
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/watchdog
+
+gzip -9nf ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-rm -f /dev/watchdog /dev/temperature
-mknod /dev/watchdog c 10 130
-mknod /dev/temperature c 10 131
 /sbin/chkconfig --add watchdog
+if [ -f /var/lock/subsys/watchdog ]; then
+	/etc/rc.d/init.d/watchdog restart 1>&2
+else
+	echo "Run \"/etc/rc.d/init.d/watchdog start\" to start watchdog daemon."
+fi
 
 %postun
 if [ "$1" = 0 ] ; then
+	if [ -f /var/lock/subsys/watchdog ]; then
+		/etc/rc.d/init.d/watchdog stop 1>&2
+	fi
 	/sbin/chkconfig --del watchdog
 fi
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog examples README NEWS AUTHORS COPYING IAFA-PACKAGE
-%doc INSTALL watchdog.lsm
-%{_prefix}/man/man?/*
-%attr(755, root, root) %{_sbindir}/watchdog
-%attr(755, root, root) %config /etc/rc.d/init.d/watchdog
-%config %{_sysconfdir}/watchdog.conf
+%doc *.gz examples/*.gz
+%{_mandir}/man?/*
+%attr(755,root,root) %{_sbindir}/watchdog
+%attr(755,root,root) %config /etc/rc.d/init.d/watchdog
+%attr(755,root,root) %config /etc/sysconfig/watchdog
+%config(noreplace) %{_sysconfdir}/watchdog.conf
