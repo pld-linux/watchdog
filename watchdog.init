@@ -40,7 +40,7 @@ case "$1" in
 			done
 		fi
 
-		if [ ${VERBOSE}="yes" ]; then
+		if [ "${VERBOSE}" = "yes" ]; then
 			daemon watchdog -v
 		else
 			daemon watchdog
