@@ -6,6 +6,7 @@ Release:	1
 License:	GPL
 Group:		Applications/System
 Vendor:		Michael Meskes <meskes@debian.org>
+#Source0-md5:	43881aa9b094da4e60425fe5f46af83c
 Source0:	ftp://tsx-11.mit.edu/pub/linux/sources/sbin/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
