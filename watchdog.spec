@@ -35,8 +35,8 @@ jest j±dro w wersji co najmniej 1.3.52.
 %build
 rm -f missing
 aclocal
-autoconf
-automake -a -c -f
+%{__autoconf}
+%{__automake}
 %configure \
 	--prefix=%{_prefix}
 %{__make}
