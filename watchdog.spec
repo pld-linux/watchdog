@@ -2,7 +2,7 @@ Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	5.2
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -16,6 +16,7 @@ Source2:	%{name}.sysconfig
 BuildRequires:	autoconf
 BuildRequires:	automake
 Prereq:		/sbin/chkconfig
+Prereq:		rc-scripts
 Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -66,7 +67,7 @@ else
 	echo "Run \"/etc/rc.d/init.d/watchdog start\" to start watchdog daemon."
 fi
 
-%postun
+%preun
 if [ "$1" = 0 ] ; then
 	if [ -f /var/lock/subsys/watchdog ]; then
 		/etc/rc.d/init.d/watchdog stop 1>&2
