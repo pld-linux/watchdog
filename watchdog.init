@@ -3,7 +3,7 @@
 # chkconfig: 12345 11 89
 # description: A software watchdog
 # rc file author: Marc Merlin <marcsoft@merlins.org>
-#                 Henning P. Schmiedehausen <hps@tanstaafl.de>
+#		  Henning P. Schmiedehausen <hps@tanstaafl.de>
 # Note that even though chkconfig says that this should be run at runlevel 1,
 # RH by default won't do this, so the RPM applies an ugly patch to 
 # /etc/rc.d/init.d/single so that if you go from RL 3 to RL 1, watchdog is
@@ -23,11 +23,13 @@ if [ -f /etc/sysconfig/watchdog ]; then
     . /etc/sysconfig/watchdog
 fi
 
+
 # See how we were called.
 case "$1" in
   start)
   	if [ ! -f /var/lock/subsys/watchdog ]; then
 		msg_starting watchdog
+		busy
 		# For some people it is a module, for others not. We force it because
 		# for kernels < 2.1, we need kerneld, and it's not running yet.
 
@@ -39,29 +41,31 @@ case "$1" in
 			daemon watchdog -v
 		else
 			daemon watchdog
-	        fi
-		echo
+		fi
 		RETVAL=$?
+		[ $RETVAL -eq 0 ] && ok || fail
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/watchdog
 	else
 		msg_already_running watchdog
+		exit 1
 	fi
 	;;
   stop)
   	if [ -f /var/lock/subsys/watchdog ]; then
 		msg_stopping watchdog
 		killproc watchdog
-        # If you compiled your kernel with CONFIG_WATCHDOG_NOWAYOUT, you may
-        # not want  to remove the module  as sometimes /etc/rc.d/init.d/halt
-        # will hang on umounting some remote nfs partition or for some other
-        # reason, and you may then want the kernel to reboot by itself.
-        # However, this means that if you stop watchdog, your system has one
-        # minute to reboot cleanly, or it will be rebooted by the kernel. If
-        # this behavior  isn't what you  want, just uncomment  the following
-        # lines
-	rmmod softdog &>/dev/null
-	rmmod pcwd &>/dev/null
-	rmmod acquirewdt &>/dev/null
+		RETVAL=$?
+		# If you compiled your kernel with CONFIG_WATCHDOG_NOWAYOUT, you may
+		# not want  to remove the module  as sometimes /etc/rc.d/init.d/halt
+		# will hang on umounting some remote nfs partition or for some other
+		# reason, and you may then want the kernel to reboot by itself.
+		# However, this means that if you stop watchdog, your system has one
+		# minute to reboot cleanly, or it will be rebooted by the kernel. If
+		# this behavior  isn't what you  want, just uncomment  the following
+		# lines
+		rmmod softdog &>/dev/null
+		rmmod pcwd &>/dev/null
+		rmmod acquirewdt &>/dev/null
 		rm -f /var/lock/subsys/watchdog >/dev/null 2>&1
 	else
 		msg_not_running watchdog
@@ -72,13 +76,18 @@ case "$1" in
 	status watchdog
 	;;
   restart|reload)
-	/etc/rc.d/init.d/watchdog stop
-	/etc/rc.d/init.d/watchdog start
+	$0 stop
+	$0 start
+	exit $?
+	;;
+  force-reload)
+	$0 stop && $0 start
+	exit $?
 	;;
   *)
-	echo "Usage: watchdog {start|stop|status|restart|reload}"
+	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
 	exit 1
 	;;
 esac
 
-exit 0
+exit $RETVAL
