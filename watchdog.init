@@ -1,9 +1,9 @@
 #! /bin/sh
 #
-# chkconfig: 12345 11 89
-# description: A software watchdog
-# rc file author: Marc Merlin <marcsoft@merlins.org>
-#		  Henning P. Schmiedehausen <hps@tanstaafl.de>
+# chkconfig:		12345 11 89
+# description:		A software watchdog
+# rc file author:	Marc Merlin <marcsoft@merlins.org>
+#			Henning P. Schmiedehausen <hps@tanstaafl.de>
 # Note that even though chkconfig says that this should be run at runlevel 1,
 # RH by default won't do this, so the RPM applies an ugly patch to 
 # /etc/rc.d/init.d/single so that if you go from RL 3 to RL 1, watchdog is
@@ -23,7 +23,7 @@ if [ -f /etc/sysconfig/watchdog ]; then
     . /etc/sysconfig/watchdog
 fi
 
-
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
@@ -43,11 +43,9 @@ case "$1" in
 			daemon watchdog
 		fi
 		RETVAL=$?
-		[ $RETVAL -eq 0 ] && ok || fail
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/watchdog
 	else
 		msg_already_running watchdog
-		exit 1
 	fi
 	;;
   stop)
@@ -69,25 +67,20 @@ case "$1" in
 		rm -f /var/lock/subsys/watchdog >/dev/null 2>&1
 	else
 		msg_not_running watchdog
-		exit 1
 	fi
 	;;
   status)
 	status watchdog
+	exit $?
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
 	exit $?
 	;;
-  force-reload)
-	$0 stop && $0 start
-	exit $?
-	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
-	exit 1
-	;;
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL
