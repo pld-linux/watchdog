@@ -36,7 +36,7 @@ jest j±dro w wersji co najmniej 1.3.52.
 rm -f missing
 aclocal
 autoconf
-automake -a -c
+automake -a -c -f
 %configure \
 	--prefix=%{_prefix}
 %{__make}
