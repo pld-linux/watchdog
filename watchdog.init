@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# chkconfig:		12345 11 89
+# chkconfig:		12345 89 89
 # description:		A software watchdog
 # rc file author:	Marc Merlin <marcsoft@merlins.org>
 #			Henning P. Schmiedehausen <hps@tanstaafl.de>
