@@ -31,9 +31,9 @@ case "$1" in
 		# For some people it is a module, for others not. We force it because
 		# for kernels < 2.1, we need kerneld, and it's not running yet.
 
-		modprobe softdog &>/dev/null
-		modprobe pcwd &>/dev/null
-		modprobe acquirewdt &>/dev/null
+		modprobe softdog >/dev/null 2>&1
+		modprobe pcwd >/dev/null 2>&1
+		modprobe acquirewdt >/dev/null 2>&1
 
 		if [ ${VERBOSE}="yes" ]; then
 			daemon watchdog -v
