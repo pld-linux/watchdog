@@ -16,7 +16,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The watchdog program writes to /dev/watchdog every ten seconds. If the
