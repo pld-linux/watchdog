@@ -52,7 +52,6 @@ case "$1" in
   	if [ -f /var/lock/subsys/watchdog ]; then
 		msg_stopping watchdog
 		killproc watchdog
-		RETVAL=$?
 		# If you compiled your kernel with CONFIG_WATCHDOG_NOWAYOUT, you may
 		# not want  to remove the module  as sometimes /etc/rc.d/init.d/halt
 		# will hang on umounting some remote nfs partition or for some other
