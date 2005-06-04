@@ -2,7 +2,7 @@ Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	5.2.4
-Release:	2
+Release:	3
 License:	GPL
 Vendor:		Michael Meskes <meskes@debian.org>
 Group:		Applications/System
@@ -12,6 +12,7 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 # ftp://ftp.debian.org/debian/pool/main/w/watchdog/
 Patch0:		%{name}_%{version}-1.diff.gz
+Patch1:		%{name}-foreground.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 PreReq:		rc-scripts
@@ -35,6 +36,7 @@ jest j±dro w wersji co najmniej 1.3.52.
 %prep
 %setup -q -n %{name}-%{version}.orig
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal}
