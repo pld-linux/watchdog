@@ -1,0 +1,169 @@
+diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/src/watchdog.c
+--- watchdog-5.2.4.orig.orig/src/watchdog.c	2003-07-08 14:34:19.000000000 +0200
++++ watchdog-5.2.4.orig/src/watchdog.c	2005-06-04 17:07:36.000000000 +0200
+@@ -85,9 +85,9 @@
+ {
+     fprintf(stderr, "%s version %d.%d, usage:\n", progname, MAJOR_VERSION, MINOR_VERSION);
+ #if USE_SYSLOG
+-    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-s] [-b] [-m <max temperature>]\n", progname);
++    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-s] [-b] [-m <max temperature>] [-F]\n", progname);
+ #else				/* USE_SYSLOG */
+-    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-b] [-m <max temperature>]\n", progname);
++    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-b] [-m <max temperature>] [-F]\n", progname);
+ #endif				/* USE_SYSLOG */
+     exit(1);
+ }
+@@ -424,14 +424,14 @@
+ int main(int argc, char *const argv[])
+ {
+     FILE *fp;
+-    int c, force = FALSE, sync_it = FALSE;
++    int c, force = FALSE, sync_it = FALSE, foreground = FALSE;
+     int hold;
+     char *filename = CONFIG_FILENAME;
+     struct list *act;
+     pid_t child_pid;
+ 
+ #if USE_SYSLOG
+-    char *opts = "d:i:n:fsvbql:p:t:c:r:m:a:";
++    char *opts = "d:i:n:fsvbql:p:t:c:r:m:a:F";
+     struct option long_options[] =
+     {
+ 	{"config-file", required_argument, NULL, 'c'},
+@@ -440,11 +440,12 @@
+ 	{"no-action", no_argument, NULL, 'q'},
+ 	{"verbose", no_argument, NULL, 'v'},
+ 	{"softboot", no_argument, NULL, 'b'},
++	{"foreground", no_argument, NULL, 'F'},
+ 	{NULL, 0, NULL, 0}
+     };
+     long count = 0L;
+ #else				/* USE_SYSLOG */
+-    char *opts = "d:i:n:fsbql:p:t:c:r:m:a:";
++    char *opts = "d:i:n:fsbql:p:t:c:r:m:a:F";
+     struct option long_options[] =
+     {
+ 	{"config-file", required_argument, NULL, 'c'},
+@@ -452,6 +453,7 @@
+ 	{"sync", no_argument, NULL, 's'},
+ 	{"no-action", no_argument, NULL, 'q'},
+ 	{"softboot", no_argument, NULL, 'b'},
++	{"foreground", no_argument, NULL, 'F'},
+ 	{NULL, 0, NULL, 0}
+     };
+ #endif				/* USE_SYSLOG */
+@@ -496,6 +498,9 @@
+ 	    verbose = TRUE;
+ 	    break;
+ #endif				/* USE_SYSLOG */
++	case 'F':
++	    foreground = TRUE;
++	    break;
+ 	default:
+ 	    usage();
+ 	}
+@@ -575,40 +580,44 @@
+ 	exit(1);
+     }
+ #if !defined(DEBUG)
+-    /* fork to go into the background */
+-    if ((child_pid = fork()) < 0) {
+-	perror(progname);
+-	exit(1);
+-    } else if (child_pid > 0) {
+-	/* fork was okay          */
+-	/* wait for child to exit */
+-	if (waitpid(child_pid, NULL, 0) != child_pid) {
++    if (!foreground) {
++	/* fork to go into the background */
++	if ((child_pid = fork()) < 0) {
+ 	    perror(progname);
+ 	    exit(1);
++	} else if (child_pid > 0) {
++	    /* fork was okay          */
++	    /* wait for child to exit */
++	    if (waitpid(child_pid, NULL, 0) != child_pid) {
++		perror(progname);
++		exit(1);
++	    }
++	    /* and exit myself */
++	    exit(0);
+ 	}
+-	/* and exit myself */
+-	exit(0);
++	/* and fork again to make sure we inherit all rights from init */
++	if ((child_pid = fork()) < 0) {
++	    perror(progname);
++	    exit(1);
++	} else if (child_pid > 0)
++	    exit(0);
+     }
+-    /* and fork again to make sure we inherit all rights from init */
+-    if ((child_pid = fork()) < 0) {
+-	perror(progname);
+-	exit(1);
+-    } else if (child_pid > 0)
+-	exit(0);
+ #endif				/* !DEBUG */
+ 
+     /* now we're free */
+ #if USE_SYSLOG
+ #if !defined(DEBUG)
+-    /* Okay, we're a daemon     */
+-    /* but we're still attached to the tty */
+-    /* create our own session */
+-    setsid();
++    if (!foreground) {
++	/* Okay, we're a daemon     */
++	/* but we're still attached to the tty */
++	/* create our own session */
++	setsid();
+ 
+-    /* with USE_SYSLOG we don't do any console IO */
+-    close(0);
+-    close(1);
+-    close(2);
++	/* with USE_SYSLOG we don't do any console IO */
++	close(0);
++	close(1);
++	close(2);
++    }
+ #endif				/* !DEBUG */
+ 
+     /* Log the starting message */
+@@ -763,6 +772,7 @@
+     /* set signal term to call terminate() */
+     /* to make sure watchdog device is closed */
+     signal(SIGTERM, terminate);
++    signal(SIGINT, terminate);
+ 
+ #if defined(_POSIX_MEMLOCK)
+     if (realtime == TRUE) {
+diff -dur -x '*~' watchdog-5.2.4.orig.orig/watchdog.8 watchdog-5.2.4.orig/watchdog.8
+--- watchdog-5.2.4.orig.orig/watchdog.8	1999-12-20 12:19:58.000000000 +0100
++++ watchdog-5.2.4.orig/watchdog.8	2005-06-04 17:07:01.000000000 +0200
+@@ -16,6 +16,8 @@
+ .I -b | --softboot
+ ] [
+ .I -q | --no-action
++] [
++.I -F | --foreground
+ ]
+ .br
+ .SH DESCRIPTION
+@@ -94,9 +96,14 @@
+ Also your hardware card resp. the kernel software watchdog driver is not
+ enabled. Note that temperature checking is also disabled since this triggers
+ the hardware watchdog on some cards.
++.TP
++-F | --foreground
++Do not fork into the background and do not detach from the terminal.
+ .LP
+ .SH FUNCTION
+-Watchdog starts, put itself into the background and then try all checks
++Watchdog starts, put itself into the background (unless 
++.I -F
++option is given) and then try all checks
+ specified in its config file in turn. Between each two tests it will trigger
+ the kernel device. After finishing all tests watchdog goes to sleep for some
+ time. The kernel drivers expects a write to the watchdog device every minute.
