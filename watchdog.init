@@ -5,7 +5,7 @@
 # rc file author:	Marc Merlin <marcsoft@merlins.org>
 #			Henning P. Schmiedehausen <hps@tanstaafl.de>
 # Note that even though chkconfig says that this should be run at runlevel 1,
-# RH by default won't do this, so the RPM applies an ugly patch to 
+# RH by default won't do this, so the RPM applies an ugly patch to
 # /etc/rc.d/init.d/single so that if you go from RL 3 to RL 1, watchdog is
 # restarted anyway (if it's not, it can cause the kernel to reboot your machine
 # depending on whether your kernel was compiled with CONFIG_WATCHDOG_NOWAYOUT)
@@ -30,7 +30,6 @@ case "$1" in
   	if [ ! -f /var/lock/subsys/watchdog ]; then
 		msg_starting watchdog
 		busy
-		
 		if [ -z "$WATCHDOG_MODULES" ]; then
 			# preload software module
 			modprobe -s softdog > /dev/null 2>&1
