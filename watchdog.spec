@@ -4,7 +4,6 @@ Name:		watchdog
 Version:	5.2.4
 Release:	3
 License:	GPL
-Vendor:		Michael Meskes <meskes@debian.org>
 Group:		Applications/System
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	c6ac132d92110eb2c4670d4f684105c3
@@ -15,8 +14,9 @@ Patch0:		%{name}_%{version}-1.diff.gz
 Patch1:		%{name}-foreground.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-PreReq:		rc-scripts
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -60,17 +60,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add watchdog
-if [ -f /var/lock/subsys/watchdog ]; then
-	/etc/rc.d/init.d/watchdog restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/watchdog start\" to start watchdog daemon."
-fi
+%service watchdog restart "watchdog daemon"
 
 %preun
 if [ "$1" = 0 ] ; then
-	if [ -f /var/lock/subsys/watchdog ]; then
-		/etc/rc.d/init.d/watchdog stop 1>&2
-	fi
+	%service watchdog stop
 	/sbin/chkconfig --del watchdog
 fi
 
