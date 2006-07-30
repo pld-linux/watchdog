@@ -1,3 +1,8 @@
+# TODO:
+# - resolve limit of interface traffic:
+#   http://bugs.gentoo.org/attachment.cgi?id=80309&action=view
+# - check which of these patches can be applied:
+#   http://www.christoph-probst.com/technik/software/watchdog/5.2.4/
 Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
