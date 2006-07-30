@@ -139,31 +139,30 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
  
  #if defined(_POSIX_MEMLOCK)
      if (realtime == TRUE) {
-diff -dur -x '*~' watchdog-5.2.4.orig.orig/watchdog.8 watchdog-5.2.4.orig/watchdog.8
---- watchdog-5.2.4.orig.orig/watchdog.8	1999-12-20 12:19:58.000000000 +0100
-+++ watchdog-5.2.4.orig/watchdog.8	2005-06-04 17:07:01.000000000 +0200
-@@ -16,6 +16,8 @@
- .I -b | --softboot
- ] [
- .I -q | --no-action
-+] [
-+.I -F | --foreground
- ]
- .br
+--- watchdog-5.2.6.orig/watchdog.8.org	2006-07-30 19:27:34.000000000 +0000
++++ watchdog-5.2.6.orig/watchdog.8	2006-07-30 19:31:34.000000000 +0000
+@@ -10,6 +10,7 @@
+ .RB [ \-s | \-\-sync ]
+ .RB [ \-b | \-\-softboot ] 
+ .RB [ \-q | \-\-no\-action ]
++.RB [ \-F | \-\-foreground ]
  .SH DESCRIPTION
-@@ -94,9 +96,14 @@
- Also your hardware card resp. the kernel software watchdog driver is not
- enabled. Note that temperature checking is also disabled since this triggers
+ The Linux kernel can reset the system if serious problems are detected.
+ This can be implemented via special watchdog hardware, or via a slightly
+@@ -107,10 +108,15 @@
+ Also your hardware card or the kernel software watchdog driver is not
+ enabled. Temperature checking is also disabled since this triggers
  the hardware watchdog on some cards.
 +.TP
-+-F | --foreground
++.BR \-F ", "\-\-foreground
 +Do not fork into the background and do not detach from the terminal.
- .LP
  .SH FUNCTION
--Watchdog starts, put itself into the background and then try all checks
-+Watchdog starts, put itself into the background (unless 
+ After
+ .B watchdog 
+-starts, it puts itself into the background and then tries all checks
++starts, it puts itself into the background (unless
 +.I -F
-+option is given) and then try all checks
- specified in its config file in turn. Between each two tests it will trigger
- the kernel device. After finishing all tests watchdog goes to sleep for some
- time. The kernel drivers expects a write to the watchdog device every minute.
++option is given) and then tries all checks
+ specified in its configuration file in turn. Between each two tests it will write to
+ the kernel device to prevent a reset. 
+ After finishing all tests watchdog goes to sleep for some
