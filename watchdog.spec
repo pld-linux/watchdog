@@ -7,7 +7,7 @@ Summary:	A software watchdog
 Summary(pl):	Programowy stra¿nik
 Name:		watchdog
 Version:	5.2.6
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
@@ -15,6 +15,7 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.ori
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-foreground.patch
+Patch1:		%{name}-debian.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -39,6 +40,7 @@ jest j±dro w wersji co najmniej 1.3.52.
 %prep
 %setup -q -n %{name}-%{version}.orig
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal}
