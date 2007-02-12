@@ -4,7 +4,7 @@
 # - check which of these patches can be applied:
 #   http://www.christoph-probst.com/technik/software/watchdog/5.2.4/
 Summary:	A software watchdog
-Summary(pl.UTF-8):   Programowy strażnik
+Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
 Version:	5.2.6
 Release:	2
