@@ -4,7 +4,7 @@
 # - check which of these patches can be applied:
 #   http://www.christoph-probst.com/technik/software/watchdog/5.2.4/
 Summary:	A software watchdog
-Summary(pl):	Programowy stra¿nik
+Summary(pl.UTF-8):   Programowy straÅ¼nik
 Name:		watchdog
 Version:	5.2.6
 Release:	2
@@ -30,12 +30,12 @@ reboot. Each write delays the reboot time another minute. The ability
 to reboot will depend on the state of the machines and interrupts. To
 use this software at least a version 1.3.52 kernel is needed.
 
-%description -l pl
-Program watchdog zapisuje do /dev/watchdog co 10 sekund. Je¿eli
-urz±dzenie jest otwarte, ale nic nie zostanie zapisane przez minutê,
-maszyna siê zrebootuje. Ka¿dy zapis opó¼nia reboot o minutê. Mo¿liwo¶æ
-rebootu zale¿y od stanu maszyny i przerwañ. Do tego programu potrzebne
-jest j±dro w wersji co najmniej 1.3.52.
+%description -l pl.UTF-8
+Program watchdog zapisuje do /dev/watchdog co 10 sekund. JeÅ¼eli
+urzÄ…dzenie jest otwarte, ale nic nie zostanie zapisane przez minutÄ™,
+maszyna siÄ™ zrebootuje. KaÅ¼dy zapis opÃ³Åºnia reboot o minutÄ™. MoÅ¼liwoÅ›Ä‡
+rebootu zaleÅ¼y od stanu maszyny i przerwaÅ„. Do tego programu potrzebne
+jest jÄ…dro w wersji co najmniej 1.3.52.
 
 %prep
 %setup -q -n %{name}-%{version}.orig
