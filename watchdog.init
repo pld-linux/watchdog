@@ -62,13 +62,15 @@ case "$1" in
 		# minute to reboot cleanly, or it will be rebooted by the kernel. If
 		# this behavior  isn't what you  want, just uncomment  the following
 		# lines
-		if [ -z "$WATCHDOG_MODULES" ]; then
-			# try to unload software module
-			rmmod -s softdog > /dev/null 2>&1
-		else
-			for module in $WATCHDOG_MODULES; do
-				rmmod -s $module > /dev/null 2>&1
-			done
+		if [ "$WATCHDOG_UNLOAD" = "yes" ]; then
+			if [ -z "$WATCHDOG_MODULES" ]; then
+				# try to unload software module
+				rmmod -s softdog > /dev/null 2>&1
+			else
+				for module in $WATCHDOG_MODULES; do
+					rmmod -s $module > /dev/null 2>&1
+				done
+			fi
 		fi
 
 		rm -f /var/lock/subsys/watchdog >/dev/null 2>&1

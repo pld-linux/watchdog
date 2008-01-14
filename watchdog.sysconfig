@@ -10,3 +10,6 @@ VERBOSE=no
 # WATCHDOG_MODULES - list of watchdog modules to be preloaded (space separated)
 # softdog module will be used is none set
 WATCHDOG_MODULES=
+
+# Unload watchdog kernel modules, not recommended
+# WATCHDOG_UNLOAD=yes
