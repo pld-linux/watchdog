@@ -23,10 +23,7 @@ if [ -f /etc/sysconfig/watchdog ]; then
 	. /etc/sysconfig/watchdog
 fi
 
-RETVAL=0
-# See how we were called.
-case "$1" in
-  start)
+start() {
   	if [ ! -f /var/lock/subsys/watchdog ]; then
 		msg_starting watchdog
 		busy
@@ -49,8 +46,9 @@ case "$1" in
 	else
 		msg_already_running watchdog
 	fi
-	;;
-  stop)
+}
+
+stop() {
   	if [ -f /var/lock/subsys/watchdog ]; then
 		msg_stopping watchdog
 		killproc watchdog
@@ -77,18 +75,43 @@ case "$1" in
 	else
 		msg_not_running watchdog
 	fi
+}
+
+condrestart() {
+	if [ -f /var/lock/subsys/watchdog ]; then
+		stop
+		start
+	else
+		msg_not_running watchdog
+		RETVAL=$1
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart|force-reload)
+	stop
+	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  force-reload)
+	condrestart 7
 	;;
   status)
 	status watchdog
 	exit $?
 	;;
-  restart|force-reload)
-	$0 stop
-	$0 start
-	exit $?
-	;;
   *)
-	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|try-restart|force-reload|status}"
 	exit 3
 esac
 
