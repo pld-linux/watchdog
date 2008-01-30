@@ -7,7 +7,7 @@ Summary:	A software watchdog
 Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
 Version:	5.4
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
@@ -73,8 +73,8 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog README NEWS AUTHORS IAFA-PACKAGE TODO examples
-%{_mandir}/man?/*
-%attr(755,root,root) %{_sbindir}/*
-%attr(754,root,root) /etc/rc.d/init.d/watchdog
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/watchdog
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/watchdog.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/watchdog
+%attr(754,root,root) /etc/rc.d/init.d/watchdog
+%attr(755,root,root) %{_sbindir}/*
+%{_mandir}/man?/*
