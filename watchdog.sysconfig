@@ -11,5 +11,8 @@ VERBOSE=no
 # softdog module will be used is none set
 WATCHDOG_MODULES=
 
-# Unload watchdog kernel modules, not recommended
-# WATCHDOG_UNLOAD=yes
+# Unload watchdog kernel modules.
+# yes	- some users reported system freezes with that setting.
+#	Usually there is no problems.
+# no	- causes system reboot after stopping watchdog!
+WATCHDOG_UNLOAD=yes
