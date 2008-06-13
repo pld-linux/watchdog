@@ -1,0 +1,31 @@
+diff -urN watchdog-5.4.org/watchdog.conf watchdog-5.4/watchdog.conf
+--- watchdog-5.4.org/watchdog.conf	2006-07-30 12:50:06.000000000 +0200
++++ watchdog-5.4/watchdog.conf	2008-06-13 12:04:44.762342752 +0200
+@@ -13,22 +13,22 @@
+ 
+ # Note that this is the number of pages!
+ # To get the real size, check how large the pagesize is on your machine.
+-#min-memory		= 1
++min-memory		= 1
+ 
+ #repair-binary		= /usr/sbin/repair
+ #test-binary		= 
+ #test-timeout		= 
+ 
+-#watchdog-device	= /dev/watchdog
++watchdog-device	= /dev/watchdog
+ 
+ # Defaults compiled into the binary
+ #temperature-device	=
+ #max-temperature	= 120
+ 
+ # Defaults compiled into the binary
+-#admin			= root
+-#interval		= 10
+-#logtick                = 1
++admin			= root
++interval		= 10
++logtick                = 1
+ 
+ # This greatly decreases the chance that watchdog won't be scheduled before
+ # your machine is really loaded
