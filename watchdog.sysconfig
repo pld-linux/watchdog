@@ -12,7 +12,9 @@ VERBOSE=no
 WATCHDOG_MODULES=
 
 # Unload watchdog kernel modules.
-# yes	- some users reported system freezes with that setting.
-#	Usually there is no problems.
-# no	- causes system reboot after stopping watchdog!
+# yes	- causes module unload on watchdog stop; if your system freezes after that
+#         then watchdog no longer can help. Usually this is best setting.
+# no	- makes watchdog kernel module run (and eventually reboot the system
+#         if shutdown procedure doesn't finish in timeout value (60s default))
+#         after watchdog daemon is stopped.
 WATCHDOG_UNLOAD=yes
