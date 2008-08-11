@@ -27,15 +27,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 The watchdog program writes to /dev/watchdog every ten seconds. If the
 device is open but not written to within a minute the machine will
 reboot. Each write delays the reboot time another minute. The ability
-to reboot will depend on the state of the machines and interrupts. To
-use this software at least a version 1.3.52 kernel is needed.
+to reboot will depend on the state of the machines and interrupts.
 
 %description -l pl.UTF-8
 Program watchdog zapisuje do /dev/watchdog co 10 sekund. Jeżeli
 urządzenie jest otwarte, ale nic nie zostanie zapisane przez minutę,
 maszyna się zrebootuje. Każdy zapis opóźnia reboot o minutę. Możliwość
-rebootu zależy od stanu maszyny i przerwań. Do tego programu potrzebne
-jest jądro w wersji co najmniej 1.3.52.
+rebootu zależy od stanu maszyny i przerwań.
 
 %prep
 %setup -q
