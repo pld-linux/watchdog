@@ -3,6 +3,8 @@
 #   http://bugs.gentoo.org/attachment.cgi?id=80309&action=view
 # - check which of these patches can be applied:
 #   http://www.christoph-probst.com/technik/software/watchdog/5.2.4/
+# - separate package with init-script for wd_keepalive - some parts should
+#   be in -common subpackage.
 Summary:	A software watchdog
 Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
