@@ -18,10 +18,21 @@
 
 [ -x /usr/sbin/watchdog -a -e /etc/watchdog.conf ] || exit 0
 
+WATCHDOG_OOM_ADJUST="-17"
 VERBOSE="no"
 if [ -f /etc/sysconfig/watchdog ]; then
 	. /etc/sysconfig/watchdog
 fi
+
+adjust_oom() {
+	if [ -e /var/run/watchdog.pid ]; then
+		for pid in $(cat /var/run/watchdog.pid); do
+			if [ -w "/proc/$pid/oom_adj" ]; then
+				echo "$WATCHDOG_OOM_ADJUST" > "/proc/$pid/oom_adj" 2> /dev/null || :
+			fi
+		done
+	fi
+}
 
 start() {
   	if [ ! -f /var/lock/subsys/watchdog ]; then
@@ -42,6 +53,7 @@ start() {
 			daemon watchdog
 		fi
 		RETVAL=$?
+		adjust_oom
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/watchdog
 	else
 		msg_already_running watchdog
