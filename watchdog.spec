@@ -8,12 +8,12 @@
 Summary:	A software watchdog
 Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
-Version:	5.5
+Version:	5.6
 Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
-# Source0-md5:	f4fbb3465bdc0d0ac27bdd2972f7f469
+# Source0-md5:	6df285569dd1d85528b983c98c9b2b7c
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-foreground.patch
@@ -39,7 +39,7 @@ rebootu zależy od stanu maszyny i przerwań.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 %patch1 -p1
 
 %build
