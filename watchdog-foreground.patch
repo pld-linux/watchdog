@@ -1,19 +1,19 @@
-diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/src/watchdog.c
---- watchdog-5.2.4.orig.orig/src/watchdog.c	2003-07-08 14:34:19.000000000 +0200
-+++ watchdog-5.2.4.orig/src/watchdog.c	2005-06-04 17:07:36.000000000 +0200
-@@ -85,9 +85,9 @@
+diff -urN ./watchdog-5.6.orig/src/watchdog.c ./watchdog-5.6/src/watchdog.c
+--- ./watchdog-5.6.orig/src/watchdog.c	2009-03-22 13:52:24.000000000 +0100
++++ ./watchdog-5.6/src/watchdog.c	2009-05-30 10:12:58.000000000 +0200
+@@ -94,9 +94,9 @@
  {
      fprintf(stderr, "%s version %d.%d, usage:\n", progname, MAJOR_VERSION, MINOR_VERSION);
  #if USE_SYSLOG
--    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-s] [-b] [-m <max temperature>]\n", progname);
-+    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-s] [-b] [-m <max temperature>] [-F]\n", progname);
+-    fprintf(stderr, "%s [-f] [-c <config_file>] [-v] [-s] [-b] [-q]\n", progname);
++    fprintf(stderr, "%s [-f] [-c <config_file>] [-v] [-s] [-b] [-q] [-F]\n", progname);
  #else				/* USE_SYSLOG */
--    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-b] [-m <max temperature>]\n", progname);
-+    fprintf(stderr, "%s [-i <interval> [-f]] [-l <max load avg>] [-v] [-b] [-m <max temperature>] [-F]\n", progname);
+-    fprintf(stderr, "%s [-f] [-c <config_file>] [-s] [-b] [-q]\n", progname);
++    fprintf(stderr, "%s [-f] [-c <config_file>] [-s] [-b] [-q] [-F]\n", progname);
  #endif				/* USE_SYSLOG */
      exit(1);
  }
-@@ -424,14 +424,14 @@
+@@ -441,14 +441,14 @@
  int main(int argc, char *const argv[])
  {
      FILE *fp;
@@ -30,7 +30,7 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
      struct option long_options[] =
      {
  	{"config-file", required_argument, NULL, 'c'},
-@@ -440,11 +440,12 @@
+@@ -457,11 +457,12 @@
  	{"no-action", no_argument, NULL, 'q'},
  	{"verbose", no_argument, NULL, 'v'},
  	{"softboot", no_argument, NULL, 'b'},
@@ -44,7 +44,7 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
      struct option long_options[] =
      {
  	{"config-file", required_argument, NULL, 'c'},
-@@ -452,6 +453,7 @@
+@@ -469,6 +470,7 @@
  	{"sync", no_argument, NULL, 's'},
  	{"no-action", no_argument, NULL, 'q'},
  	{"softboot", no_argument, NULL, 'b'},
@@ -52,7 +52,7 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
  	{NULL, 0, NULL, 0}
      };
  #endif				/* USE_SYSLOG */
-@@ -496,6 +498,9 @@
+@@ -513,6 +515,9 @@
  	    verbose = TRUE;
  	    break;
  #endif				/* USE_SYSLOG */
@@ -62,7 +62,7 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
  	default:
  	    usage();
  	}
-@@ -575,40 +580,44 @@
+@@ -592,40 +597,44 @@
  	exit(1);
      }
  #if !defined(DEBUG)
@@ -113,34 +113,36 @@ diff -dur -x '*~' watchdog-5.2.4.orig.orig/src/watchdog.c watchdog-5.2.4.orig/sr
 -    /* but we're still attached to the tty */
 -    /* create our own session */
 -    setsid();
-+    if (!foreground) {
-+	/* Okay, we're a daemon     */
-+	/* but we're still attached to the tty */
-+	/* create our own session */
-+	setsid();
- 
+-
 -    /* with USE_SYSLOG we don't do any console IO */
 -    close(0);
 -    close(1);
 -    close(2);
-+	/* with USE_SYSLOG we don't do any console IO */
-+	close(0);
-+	close(1);
-+	close(2);
++    if (!foreground) {
++        /* Okay, we're a daemon     */
++        /* but we're still attached to the tty */
++        /* create our own session */
++        setsid();
++
++        /* with USE_SYSLOG we don't do any console IO */
++        close(0);
++        close(1);
++        close(2);
 +    }
  #endif				/* !DEBUG */
  
      /* Log the starting message */
-@@ -763,6 +772,7 @@
-     /* set signal term to call terminate() */
-     /* to make sure watchdog device is closed */
-     signal(SIGTERM, terminate);
+@@ -794,6 +803,7 @@
+     /* set signal term to set our run flag to 0 so that */
+     /* we make sure watchdog device is closed when receiving SIGTERM */
+     signal(SIGTERM, sigterm_handler);
 +    signal(SIGINT, terminate);
  
  #if defined(_POSIX_MEMLOCK)
      if (realtime == TRUE) {
---- watchdog-5.2.6.orig/watchdog.8.org	2006-07-30 19:27:34.000000000 +0000
-+++ watchdog-5.2.6.orig/watchdog.8	2006-07-30 19:31:34.000000000 +0000
+diff -urN ./watchdog-5.6.orig/watchdog.8 ./watchdog-5.6/watchdog.8
+--- ./watchdog-5.6.orig/watchdog.8	2009-03-12 14:41:04.000000000 +0100
++++ ./watchdog-5.6/watchdog.8	2009-05-30 00:06:00.000000000 +0200
 @@ -10,6 +10,7 @@
  .RB [ \-s | \-\-sync ]
  .RB [ \-b | \-\-softboot ] 
