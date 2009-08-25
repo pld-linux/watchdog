@@ -1,0 +1,48 @@
+--- watchdog-5.6.orig/src/wd_keepalive.c
++++ watchdog-5.6/src/wd_keepalive.c
+@@ -138,9 +138,10 @@
+     }
+ 
+     while ( !feof(wc) ) {
+-        char line[CONFIG_LINE_LEN];
++	char *line = NULL;
++	size_t n;
+ 
+-        if ( fgets(line, CONFIG_LINE_LEN, wc) == NULL ) {
++	if (getline(&line, &n, wc) == -1) {
+             if ( !ferror(wc) )
+                 break;
+             else {
+--- watchdog-5.6.orig/src/watchdog.c
++++ watchdog-5.6/src/watchdog.c
+@@ -25,6 +25,7 @@
+ #include <sys/wait.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
++#include <sys/ioctl.h>
+ #include <linux/watchdog.h>
+ #define __USE_GNU
+ #include <string.h>
+@@ -253,9 +254,10 @@
+     }
+ 
+     while (!feof(wc)) {
+-	char line[CONFIG_LINE_LEN];
++	char *line = NULL;
++	size_t n;
+ 
+-	if (fgets(line, CONFIG_LINE_LEN, wc) == NULL) {
++	if (getline(&line, &n, wc) == -1) {
+ 	    if (!ferror(wc))
+ 		break;
+ 	    else {
+@@ -690,7 +692,7 @@
+ 	       driver default) */
+ 	    if (ioctl(watchdog, WDIOC_SETTIMEOUT, &devtimeout) < 0) {
+ #if USE_SYSLOG
+-            	syslog(LOG_ERR, "cannot set timeout %s (errno = %d = '%m')", strerror(errno), devtimeout, errno);
++                syslog(LOG_ERR, "cannot set timeout %d (errno = %d = '%m')", devtimeout, errno);
+ #else				
+             	perror(progname);
+ #endif			   
+
