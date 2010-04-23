@@ -1,7 +1,7 @@
 diff -urN watchdog-5.4.org/watchdog.conf watchdog-5.4/watchdog.conf
 --- watchdog-5.4.org/watchdog.conf	2006-07-30 12:50:06.000000000 +0200
 +++ watchdog-5.4/watchdog.conf	2008-06-13 12:04:44.762342752 +0200
-@@ -13,22 +13,22 @@
+@@ -13,23 +13,23 @@
  
  # Note that this is the number of pages!
  # To get the real size, check how large the pagesize is on your machine.
@@ -21,11 +21,13 @@ diff -urN watchdog-5.4.org/watchdog.conf watchdog-5.4/watchdog.conf
  
  # Defaults compiled into the binary
 -#admin			= root
--#interval		= 10
+-#interval		= 1
 -#logtick                = 1
+-#logdir			= /var/log/watchdog
 +admin			= root
-+interval		= 10
++interval		= 1
 +logtick                = 1
++logdir			= /var/log/watchdog
  
  # This greatly decreases the chance that watchdog won't be scheduled before
  # your machine is really loaded
