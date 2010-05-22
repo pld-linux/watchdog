@@ -11,7 +11,7 @@ Name:		watchdog
 Version:	5.8
 Release:	1
 License:	GPL
-Group:		Applications/System
+Group:		Daemons
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	f0a85dbe35604f51b481666ec115aec4
 Source1:	%{name}.init
