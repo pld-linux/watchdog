@@ -8,12 +8,12 @@
 Summary:	A software watchdog
 Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
-Version:	5.9
+Version:	5.11
 Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
-# Source0-md5:	d7cae3c9829f5d9a680764f314234867
+# Source0-md5:	02c764219b3bdb2373091cbd67109eb6
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-foreground.patch
