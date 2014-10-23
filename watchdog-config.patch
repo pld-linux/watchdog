@@ -1,14 +1,15 @@
---- watchdog-5.9/watchdog.conf~	2010-05-10 15:48:31.000000000 +0200
-+++ watchdog-5.9/watchdog.conf	2010-12-19 22:02:23.512505359 +0100
-@@ -13,24 +13,24 @@
+--- watchdog-5.14.orig/watchdog.conf~	2014-10-17 22:09:33.000000000 +0200
++++ watchdog-5.14.orig/watchdog.conf	2014-10-23 06:31:22.932569791 +0200
+@@ -13,7 +13,7 @@
  
  # Note that this is the number of pages!
  # To get the real size, check how large the pagesize is on your machine.
 -#min-memory		= 1
 +min-memory		= 1
+ #allocatable-memory	= 1
  
  #repair-binary		= /usr/sbin/repair
- #repair-timeout		= 
+@@ -21,17 +21,17 @@
  #test-binary		= 
  #test-timeout		= 
  
