@@ -8,12 +8,12 @@
 Summary:	A software watchdog
 Summary(pl.UTF-8):	Programowy strażnik
 Name:		watchdog
-Version:	5.14
+Version:	5.15
 Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
-# Source0-md5:	6d1053323a06d6b5c11bec8076b920d7
+# Source0-md5:	678c32f6f35a0492c9c1b76b4aa88828
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-foreground.patch
@@ -38,7 +38,7 @@ maszyna się zrebootuje. Każdy zapis opóźnia reboot o minutę. Możliwość
 rebootu zależy od stanu maszyny i przerwań.
 
 %prep
-%setup -q -n %{name}-%{version}.orig
+%setup -q
 #%patch0 -p1
 %patch1 -p1
 
