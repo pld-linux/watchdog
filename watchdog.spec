@@ -12,7 +12,7 @@ Version:	5.15
 Release:	1
 License:	GPL
 Group:		Daemons
-Source0:	ftp://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
+Source0:	http://ftp.debian.org/debian/pool/main/w/watchdog/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	678c32f6f35a0492c9c1b76b4aa88828
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
