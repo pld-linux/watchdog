@@ -1,21 +1,20 @@
---- watchdog-5.14.orig/watchdog.conf~	2014-10-17 22:09:33.000000000 +0200
-+++ watchdog-5.14.orig/watchdog.conf	2014-10-23 06:31:22.932569791 +0200
-@@ -13,7 +13,7 @@
+--- watchdog-5.16.org/watchdog.conf	2020-04-24 10:56:46.000000000 +0200
++++ watchdog-5.16/watchdog.conf	2020-11-07 23:56:38.370400979 +0100
+@@ -23,7 +23,7 @@
  
- # Note that this is the number of pages!
- # To get the real size, check how large the pagesize is on your machine.
+ # Uncomment this to use the watchdog device driver access "file".
+ 
+-#watchdog-device		= /dev/watchdog
++watchdog-device		= /dev/watchdog
+ 
+ # Uncomment and edit this line for hardware timeout values that differ
+ # from the default of one minute.
+@@ -163,7 +163,7 @@ priority		= 1
+ # NOTE: This is the number of pages, to get the real size, check how
+ # large the pagesize is on your machine (typically 4kB for x86 hardware).
+ 
 -#min-memory		= 1
 +min-memory		= 1
  #allocatable-memory	= 1
+ #max-swap = 0
  
- #repair-binary		= /usr/sbin/repair
-@@ -28,7 +28,7 @@ min-memory		= 1
- #retry-timeout		= 60
- #repair-maximum		= 1
- 
--#watchdog-device	= /dev/watchdog
-+watchdog-device	= /dev/watchdog
- 
- # Defaults compiled into the binary
- #temperature-sensor	=
-
